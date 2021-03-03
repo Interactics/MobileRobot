@@ -5,8 +5,13 @@ This Repo describes mobile robot's kinematics and control system.
 
 ## Todo LIST
 
-- [ ] Basic Mobile robot frame
+- [x] Basic Mobile robot frame
 - [ ] Differential Drive
 - [ ] 3WD Omnidirectional Drive with Omni wheel
 - [ ] 4WD Omnidirectional Drive with Mecanum wheel
 - [ ] 4WD Omnidirectional Drive with Omni wheel
+
+## Reference
+
+- [ROBOTIS - Turtlebot3](https://github.com/ROBOTIS-GIT/OpenCR/tree/master/arduino/opencr_arduino/opencr/libraries/turtlebot3)
+- [Hello Robot - Stretch](https://github.com/Interactics/stretch_firmware)
