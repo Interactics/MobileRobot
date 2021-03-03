@@ -22,20 +22,19 @@ public:
   MobileRobot();
   virtual ~MobileRobot();
 
-private:
   ////////////////////////////////////////////////////////////////////////////////
   /// @brief The function that sets the number of mobile robot's wheel with actuator.
   /// @description The function that sets the number of mobile robot's wheel with actuator.
   /// @param The number of mobile robot's wheel with actuator.
   ////////////////////////////////////////////////////////////////////////////////
-  virtual void setActuatorNum(int num) = 0;
+  virtual void setActNum(int actNum) = 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   /// @brief The function that sets the size of mobile robot's wheel with actuator.
   /// @description The function that sets the diameter size of mobile robot's wheel with actuator.
   /// @param The diameter of wheel with actuator.
   ////////////////////////////////////////////////////////////////////////////////
-  virtual void setWheelSize(int diameter) = 0;
+  virtual void setWheelDiameter(const float wheelDiameter) = 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   /// @brief The function that sets the width of mobile robot track size
@@ -43,7 +42,7 @@ private:
   /// which is a distance between front or back two wheel of mobile base.
   /// @param The size of track
   ////////////////////////////////////////////////////////////////////////////////
-  virtual void setTrack(int dist) = 0 ;
+  virtual void setTrackDist(const float trackDist) = 0 ;
 
   ////////////////////////////////////////////////////////////////////////////////
   /// @brief The function that sets the length of mobile robot wheelbase size
@@ -51,7 +50,15 @@ private:
   /// which is a distance between front and back wheel
   /// @param The size of wheelbase
   ////////////////////////////////////////////////////////////////////////////////
-  virtual void setWheelBase(int dist) = 0;
+  virtual void setWheelBase(const float wheelBase) = 0;
+
+
+  ////////////////////////////////////////////////////////////////////////////////
+  /// @brief The function that controls motors
+  /// @description The function that controls the mobile robot with inverse kinematics. 
+  /// @param The vector of twist velocity of mobile robot
+  ////////////////////////////////////////////////////////////////////////////////
+  bool MotorCtrl(float* velocity);
 
 }; // class
 } // namespace
