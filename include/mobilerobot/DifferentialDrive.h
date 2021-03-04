@@ -1,7 +1,8 @@
 /*******************************************************************************
-* Date 2021.03.02
-* Created by Interatics
-*******************************************************************************/
+ * DifferentialDrive.h
+ * Date 2021.03.04
+ * Created by Interatics
+ *******************************************************************************/
 
 ////////////////////////////////////////////////////////////////////////////////
 /// @file The file for Differential Drive Mobile Robot
@@ -13,20 +14,23 @@
 
 #include "robot.h"
 
-#define LEFT   0
-#define RIGHT  1
-
 namespace mobile{
 
 class DiffDrive : public MobileRobot {
 private:
+    enum { LEFT = 0, RIGHT } ;
+    enum { Vx = 0, Wtheta };
+
     int   actNum;
     float wheelDiameter;
     float trackDist;
     float wheelBase;
+
 public:
-    DiffDrive(const int actNum, const float wheelDiameter, const float trackDist)
-    :actNum(actNum), wheelDiameter(wheelDiameter), trackDist(trackDist), wheelBase(0) {};
+    DiffDrive(const float wheelDiameter, const float trackDist)
+    :wheelDiameter(wheelDiameter), trackDist(trackDist), wheelBase(0) {
+        actNum = 2;
+    };
     ~DiffDrive(){}
 
     void setActNum(const int actNum)                 { this -> actNum = actNum; }
