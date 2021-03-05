@@ -14,7 +14,7 @@
 
 #include "robot.h"
 
-namespace mobile{
+namespace mobile {
 
 class DiffDrive : public MobileRobot {
 private:
@@ -38,6 +38,9 @@ public:
     void setTrackDist(const float trackDist)         { this -> trackDist = trackDist; } 
 
     bool MotorCtrl(float* velocity);
+    float* InvKinematics(float* twistVel);
+    float* ForKinematics(float* wheelVelocity);
+
 }; // class
 }
 #endif // __DIFF_DRIVE_H__

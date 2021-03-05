@@ -3,17 +3,20 @@
 namespace mobile {
 
 bool DiffDrive::MotorCtrl(float* velocity){
-    float wheelVelocityCmd[2];    // [vx, theta]
-
-    float linVel = velocity[LEFT];
-    float angVel = velocity[RIGHT];
-
-    wheelVelocityCmd[LEFT]   = linVel - (angVel * trackDist / 2);
-    wheelVelocityCmd[RIGHT]  = linVel + (angVel * trackDist / 2);
+    float* wheelVelocityCmd = InvKinematics(velocity);
 
     // Assign the motor velocity command to motor;
     // if command fail then return false
-
+    delete[] wheelVelocityCmd;
     return true;
+}
+
+float* DiffDrive::InvKinematics(float* twistVel){
+    float* wheelVelocityCmd = new float[2];
+
+    wheelVelocityCmd[LEFT]   = twistVel[Vx] - (twistVel[Wtheta] * trackDist / 2);
+    wheelVelocityCmd[RIGHT]  = twistVel[Vx] + (twistVel[Wtheta] * trackDist / 2);
+
+    return wheelVelocityCmd;
 }
 }
