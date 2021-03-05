@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Date 2021.03.02
+* Date 2021.03.05
 * Created by Interatics
 *******************************************************************************/
 
@@ -59,6 +59,16 @@ public:
   /// @param The vector of twist velocity of mobile robot
   ////////////////////////////////////////////////////////////////////////////////
   bool MotorCtrl(float* velocity);
+
+  float* InvKinematics(float* velocity);
+  
+  float* ForKinematics(float* velocity);
+
+  // ForKinematics()
+
+  // InvKinematics()
+
+  // Odometry()
 
 }; // class
 } // namespace
