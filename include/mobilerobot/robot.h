@@ -52,25 +52,29 @@ public:
   ////////////////////////////////////////////////////////////////////////////////
   virtual void setWheelBase(const float wheelBase) = 0;
 
-
   ////////////////////////////////////////////////////////////////////////////////
   /// @brief The function that controls motors
-  /// @description The function that controls the mobile robot. 
+
+  /// @description The function that controls the mobile robot.
   /// @param The vector of twist velocity of mobile robot
   ////////////////////////////////////////////////////////////////////////////////
-  bool MotorCtrl(float* cmdVelocity);
+  virtual bool MotorCtrl(float* cmdVelocity);
 
-  float* InvKinematics(float* twistVel);
+  ////////////////////////////////////////////////////////////////////////////////
+  /// @brief The function that Inverse kinematics for mobile robot.
+  /// @description The function that calculates the mobile robot with inverse kinematics. 
+  /// @param The vector of twist velocity of mobile robot
+  /// @return Array of each motor's target velocity.
+  ////////////////////////////////////////////////////////////////////////////////
+  virtual float* InvKinematics(float* twistVel);
   
-  float* ForKinematics(float* wheelVelocity);
-
-  float* calOdometry(float* twistVel);
-
-  // ForKinematics()
-
-  // InvKinematics()
-
-  // Odometry()
+  ////////////////////////////////////////////////////////////////////////////////
+  /// @brief The function that Forward kinematics for mobile robot.
+  /// @description The function that calculates the mobile robot with forward kinematics. 
+  /// @param The vector of current wheel velocity of mobile robot
+  /// @return Twist velocity of mobile robot.
+  ////////////////////////////////////////////////////////////////////////////////
+  virtual float* ForKinematics(float* wheelVelocity);
 
 }; // class
 } // namespace
