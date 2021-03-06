@@ -55,14 +55,16 @@ public:
 
   ////////////////////////////////////////////////////////////////////////////////
   /// @brief The function that controls motors
-  /// @description The function that controls the mobile robot with inverse kinematics. 
+  /// @description The function that controls the mobile robot. 
   /// @param The vector of twist velocity of mobile robot
   ////////////////////////////////////////////////////////////////////////////////
-  bool MotorCtrl(float* velocity);
+  bool MotorCtrl(float* cmdVelocity);
 
-  float* InvKinematics(float* velocity);
+  float* InvKinematics(float* twistVel);
   
-  float* ForKinematics(float* velocity);
+  float* ForKinematics(float* wheelVelocity);
+
+  float* calOdometry(float* twistVel);
 
   // ForKinematics()
 
