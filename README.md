@@ -12,11 +12,11 @@ This Repo describes mobile robot's kinematics and control system.
   - [x] Basic Mobile robot frame
   - [ ] Differential Drive
     - [x] inverse kinematics
-    - [ ] forward kinematics
+    - [x] forward kinematics
   - [ ] 3WD Omnidirectional Drive with Omni wheel
   - [ ] 4WD Omnidirectional Drive with Mecanum wheel
     - [x] inverse kinematics
-    - [ ] forward kinematics
+    - [x] forward kinematics
   - [ ] 4WD Omnidirectional Drive with Omni wheel
 - [ ] Numerical Method
 - [ ] Digital Filter
