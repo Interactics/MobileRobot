@@ -10,32 +10,35 @@
 
 #ifndef __UNIT_H__
 #define __UNIT_H__
-#include <io>
+
 
 namespace UNIT {
+    const int CONST_POSITION    = 4;
+    const int CONST_TWIST       = 3;
+
     enum { X = 0, Y, Z, W };
+    enum { ROLL = 0, PITCH, YAW };
+
 
 class Position{
 public:
         float pos[3];            // x, y, z
         float querternion[4];    // x, y, z, w
 public:
-    Position() : pos{0}, querternion{0} {}
-    Position(const float x, const float y, const float z) : pos{x, y, z}, querternion{0} {}
+    Position();
+    Position(const float x, const float y, const float z);
     Position(const float x, const float y, const float z, 
-             const float xx, const float yy, const float zz, const float ww) : pos{x, y, z}, querternion{xx, yy, zz, ww} {}
-    Position(const Position& copy) 
-    : pos{copy.pos[X], copy.pos[Y], copy.pos[Z]}, 
-      querternion{copy.querternion[X], copy.querternion[Y], copy.querternion[Z], copy.querternion[W]} { }
+             const float xx, const float yy, const float zz, const float ww);
+    Position(const Position& copy);
     ~Position() {}
 
-    Position operator+(const Position&);
-    Position operator-(const Position&);
-    Position operator*(const Position&);
-    Position operator/(const Position&);
+    Position operator+(Position&);
+    Position operator-(Position&);
+    Position operator*(float&);
+    Position operator/(float&);
 
-    friend Position operator*(const int&, const Position&);
-    friend Position operator/(const int&, const Position&);
+    friend Position operator*(float&, Position&);
+    friend Position operator/(float&, Position&);
 };
 
 class Twist{
@@ -48,13 +51,13 @@ public:
           float, float, float) : linear{0}, angular{0} {}
     Twist(const Twist& copy);
 
-    Twist operator+(const Twist&);
-    Twist operator-(const Twist&);
-    Twist operator*(const Twist&);
-    Twist operator/(const Twist&);
+    Twist operator+(Twist&);
+    Twist operator-(Twist&);
+    Twist operator*(float&);
+    Twist operator/(float&);
 
-    friend Twist operator*(const int&, const Twist&);
-    friend Twist operator/(const int&, const Twist&);
+    friend Twist operator*(float&, Twist&);
+    friend Twist operator/(float&, Twist&);
 };
 } // namespace UNIT
 
