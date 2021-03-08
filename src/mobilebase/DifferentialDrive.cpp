@@ -2,30 +2,30 @@
 
 namespace mobile {
 
-bool DiffDrive::MotorCtrl(float* cmdVelocity){
-    float* wheelVelocityCmd = InvKinematics(cmdVelocity);
+// bool DiffDrive::MotorCtrl(float* cmdVelocity){
+//     float* wheelVelocityCmd = InvKinematics(cmdVelocity);
 
-    // Assign the motor velocity command to motor;
-    // if command fail then return false
+//     // Assign the motor velocity command to motor;
+//     // if command fail then return false
 
-    delete[] wheelVelocityCmd;
-    return true;
-}
+//     delete[] wheelVelocityCmd;
+//     return true;
+// }
 
-float* DiffDrive::InvKinematics(float* twistVel){
+float* DiffDrive::InvKinematics(Twist* twistVel){
     float* wheelVelocityCmd = new float[2];
 
-    wheelVelocityCmd[LEFT]   = twistVel[Vx] - ( twistVel[Wtheta] * trackDist / 2.0f );
-    wheelVelocityCmd[RIGHT]  = twistVel[Vx] + ( twistVel[Wtheta] * trackDist / 2.0f );
+    wheelVelocityCmd[LEFT]   = twistVel->linear[X] - ( twistVel->angular[YAW] * trackDist / 2.0f );
+    wheelVelocityCmd[RIGHT]  = twistVel->linear[X] + ( twistVel->angular[YAW] * trackDist / 2.0f );
 
     return wheelVelocityCmd;
 }
 
-float* DiffDrive::ForKinematics(float* wheelVelocity) {
-    float* twistVelocity = new float[2];
+Twist* DiffDrive::ForKinematics(float* wheelVelocity) {
+    Twist* twistVelocity = new Twist;
 
-    twistVelocity[Vx]     = (wheelVelocity[RIGHT] + wheelVelocity[LEFT]) / 2.0f;
-    twistVelocity[Wtheta] = (wheelVelocity[RIGHT] - wheelVelocity[LEFT]) / trackDist;
+    twistVelocity->linear[X]    = (wheelVelocity[RIGHT] + wheelVelocity[LEFT]) / 2.0f;
+    twistVelocity->angular[YAW] = (wheelVelocity[RIGHT] - wheelVelocity[LEFT]) / trackDist;
   
     return twistVelocity;
 }
