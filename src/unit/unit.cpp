@@ -6,52 +6,98 @@ namespace UNIT {
 /// Class Positon
 /////////////////////////////////////
 
-Position::Position()  : pos{0}, querternion{0} {}
+Position::Position()  : pos{0}, quaternion{0} {}
 Position::Position(const float x, const float y, const float z)
-    : pos{x, y, z}, querternion{0} {}
+    : pos{x, y, z}, quaternion{0}, euler{0} {}
+Position::Position(const float x, const float y, const float z,
+                   const float roll, const float pitch, const float yaw)
+    : pos{x, y, z}, euler{roll, pitch, yaw} {
+    ToQuaternion_();
+}
 Position::Position(const float x, const float y, const float z,
                    const float xx, const float yy, const float zz, const float ww)
-    : pos{x, y, z}, querternion{xx, yy, zz, ww} {}
+    : pos{x, y, z}, quaternion{xx, yy, zz, ww} {
+    ToEuler_();
+}
 Position::Position(const Position &copy)
     : pos{copy.pos[X], copy.pos[Y], copy.pos[Z]},
-      querternion{copy.querternion[X], copy.querternion[Y], copy.querternion[Z],
-                  copy.querternion[W]} {}
+      quaternion{copy.quaternion[X], copy.quaternion[Y], copy.quaternion[Z],
+                  copy.quaternion[W]} {
+    ToEuler_();
+}
 Position::~Position() {}
 
 inline Position Position::operator+(Position& pos){
     for(int idx = 0; idx < CONST_POSITION ; idx++){
         if (idx != CONST_POSITION - 1) this->pos[idx] += pos.pos[idx];
-        this->querternion[idx] += pos.querternion[idx];
+        this->quaternion[idx] += pos.quaternion[idx];
     }
+    ToEuler_();
     return *this;
 }
 inline Position Position::operator-(Position& pos){
     for(int idx = 0; idx < CONST_POSITION ; idx++){
         if (idx != CONST_POSITION - 1) this->pos[idx] -= pos.pos[idx];
-        this->querternion[idx] -= pos.querternion[idx];
+        this->quaternion[idx] -= pos.quaternion[idx];
     }
+    ToEuler_();
     return *this;
 }
 inline Position Position::operator*(float& ref){
     for(int idx = 0; idx < CONST_POSITION ; idx++){
         if (idx != CONST_POSITION - 1) this->pos[idx] *= ref;
-        this->querternion[idx] *= ref;
+        this->quaternion[idx] *= ref;
     }
+    ToEuler_();
     return *this;
 }
 inline Position Position::operator/(float& ref){
     for(int idx = 0; idx < CONST_POSITION ; idx++){
         if (idx != CONST_POSITION - 1) this->pos[idx] /= ref;;
-        this->querternion[idx] /= ref;
+        this->quaternion[idx] /= ref;
     }
+    ToEuler_();
     return *this;
 }
 
 inline Position operator*(float& ref, Position& pos)  {
-    return pos * ref;
+    Position result = pos * ref;
+    return result;
 }
 inline Position operator/(float& ref, Position& pos)  {
-    return pos / ref;
+    Position result = pos / ref;
+    return result;
+}
+
+void Position::ToQuaternion_(){
+    double cy = cos(euler[YAW] * 0.5);
+    double sy = sin(euler[YAW] * 0.5);
+    double cp = cos(euler[PITCH] * 0.5);
+    double sp = sin(euler[PITCH] * 0.5);
+    double cr = cos(euler[ROLL] * 0.5);
+    double sr = sin(euler[ROLL] * 0.5);
+
+    quaternion[W] = cr * cp * cy + sr * sp * sy;
+    quaternion[X] = sr * cp * cy - cr * sp * sy;
+    quaternion[Y] = cr * sp * cy + sr * cp * sy;
+    quaternion[Z] = cr * cp * sy - sr * sp * cy;
+}
+
+void Position::ToEuler_() {
+    // roll (x-axis rotation)
+    double sinr_cosp = 2 * (quaternion[W] * quaternion[X] + quaternion[Y] * quaternion[Z]);
+    double cosr_cosp = 1 - 2 * (quaternion[X] * quaternion[X] + quaternion[Y] * quaternion[Y]);
+    euler[ROLL] = std::atan2(sinr_cosp, cosr_cosp);
+
+    // pitch (y-axis rotation)
+    double sinp = 2 * (quaternion[W] * quaternion[Y] - quaternion[Z] * quaternion[X]);
+    if (std::abs(sinp) >= 1) euler[PITCH] = std::copysign(M_PI / 2, sinp); // use 90 degrees if out of range
+    else euler[PITCH] = std::asin(sinp);
+
+    // yaw (z-axis rotation)
+    double siny_cosp = 2 * (quaternion[W] * quaternion[Z] + quaternion[X] * quaternion[Y]);
+    double cosy_cosp = 1 - 2 * (quaternion[Y] * quaternion[Y] + quaternion[Z] * quaternion[Z]);
+    euler[YAW] = std::atan2(siny_cosp, cosy_cosp);
 }
 
 /////////////////////////////////////

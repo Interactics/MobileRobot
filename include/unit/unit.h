@@ -11,6 +11,7 @@
 #ifndef __UNIT_H__
 #define __UNIT_H__
 
+#include <cmath>
 
 namespace UNIT {
     const int CONST_POSITION    = 4;
@@ -23,12 +24,16 @@ namespace UNIT {
 class Position{
 public:
         float pos[3];            // x, y, z
-        float querternion[4];    // x, y, z, w
+        float quaternion[4];     // x, y, z, w
+        float euler[3];          // x, y, z
+
 public:
     Position();
-    Position(const float x, const float y, const float z);
-    Position(const float x, const float y, const float z, 
-             const float xx, const float yy, const float zz, const float ww);
+    Position(const float, const float, const float); // Only Position.
+    Position(const float, const float, const float,  
+             const float, const float, const float); // Position with euler angle.
+    Position(const float, const float, const float, 
+             const float, const float, const float, const float); // Position with quaternion.
     Position(const Position& copy);
     ~Position() {}
 
@@ -39,6 +44,10 @@ public:
 
     friend Position operator*(float&, Position&);
     friend Position operator/(float&, Position&);
+
+private:
+    void ToQuaternion_();
+    void ToEuler_();
 };
 
 class Twist{
@@ -46,10 +55,10 @@ public:
     float linear[3];         // x, y, z
     float angular[3];        // x, y, z
 public:
-    Twist() : linear{0}, angular{0} {}
-    Twist(float, float, float, 
-          float, float, float) : linear{0}, angular{0} {}
+    Twist();
+    Twist(float, float, float, float, float, float);
     Twist(const Twist& copy);
+    ~Twist();
 
     Twist operator+(Twist&);
     Twist operator-(Twist&);
