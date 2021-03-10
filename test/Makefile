@@ -1,16 +1,19 @@
+.SUFFIXES : .cpp .o 
+
 CXX = g++
-CFLAGS = -g -w -WALL
-OBJS = test.o unit.o
-TARGET = test.out
-INC = -I../include
+CXXFLAGS = -g -Wall
 
+EXEC = test
+OBJS = test.o
+SRCS = $(OBJS:.o=.cpp)
 
-$(TARGET) : $(OBJS)
-	$(CC) -o $@ $(OBJS)
+TARGET = test
 
-test.o : ../include/unit/unit.h test.cpp
-unit.o : ../include/unit/unit.h ../src/unit/unit.cpp
-
+$(EXEC) : test.o
+	$(CXX) -o $(TARGET) $(OBJS) -L../src/unit -lunit
+test.o : test.cpp
+unit.o : unit.cpp
 
 clean:
 	rm -f *.o $(TARGET)
+
