@@ -1,20 +1,18 @@
 .SUFFIXES : .cpp .o 
 
 CXX = g++
-CXXFLAGS = -g -w -WALL
+CXXFLAGS = -g -Wall
 
-OBJS = test.o unit.o
-SRCS = $(OBJS:.o=.c)
+EXEC = test
+OBJS = test.o
+SRCS = $(OBJS:.o=.cpp)
 
-TARGET = test.out
-ROOT = /Users/YuHoyeon 1/Documents/workspace/ 
-INC = -I$(ROOT)/MobileRobot/include/unit
+TARGET = test
 
-$(TARGET) : $(OBJS)
-	$(CXX) -o $@ $(OBJS) $(INC)
-
-test.o : unit.h test.cpp
-unit.o : unit.h unit.cpp
+$(EXEC) : test.o
+	$(CXX) -o $(TARGET) $(OBJS) -L../src/unit -lunit
+test.o : test.cpp
+unit.o : unit.cpp
 
 clean:
 	rm -f *.o $(TARGET)
