@@ -11,6 +11,7 @@
 #ifndef __UNIT_H__
 #define __UNIT_H__
 
+#include <iostream>
 #include <cmath>
 
 namespace UNIT {
@@ -30,20 +31,22 @@ public:
 public:
     Position();
     Position(const float, const float, const float); // Only Position.
-    Position(const float, const float, const float,  
+    Position(const float, const float, const float,
              const float, const float, const float); // Position with euler angle.
-    Position(const float, const float, const float, 
+    Position(const float, const float, const float,
              const float, const float, const float, const float); // Position with quaternion.
     Position(const Position& copy);
-    ~Position() {}
+    ~Position();
+    
+    Position operator+(const Position&);
+    Position operator-(const Position&);
+    Position operator*(const float&);
+    Position operator/(const float&);
 
-    Position operator+(Position&);
-    Position operator-(Position&);
-    Position operator*(float&);
-    Position operator/(float&);
-
-    friend Position operator*(float&, Position&);
-    friend Position operator/(float&, Position&);
+    friend Position operator*(const float&, Position&);
+    friend Position operator/(const float&, Position&);
+    
+    friend std::ostream& operator<<(std::ostream&, const Position&);
 
 private:
     void ToQuaternion_();
@@ -56,20 +59,21 @@ public:
     float angular[3];        // x, y, z
 public:
     Twist();
+    Twist(float, float, float);
     Twist(float, float, float, float, float, float);
     Twist(const Twist& copy);
     ~Twist();
 
-    Twist operator+(Twist&);
-    Twist operator-(Twist&);
-    Twist operator*(float&);
-    Twist operator/(float&);
+    Twist operator+(const Twist&);
+    Twist operator-(const Twist&);
+    Twist operator*(const float&);
+    Twist operator/(const float&);
 
-    friend Twist operator*(float&, Twist&);
-    friend Twist operator/(float&, Twist&);
+    friend Twist operator*(const float&, Twist&);
+    friend Twist operator/(const float&, Twist&);
+    
+    friend std::ostream& operator<<(std::ostream&, const Twist&);
+
 };
 } // namespace UNIT
-
-
-
 #endif // __UNIT_H__

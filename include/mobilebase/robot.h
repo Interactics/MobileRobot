@@ -18,7 +18,6 @@ namespace mobile {
 /// @brief The class for Mobile Robot systems. 
 ////////////////////////////////////////////////////////////////////////////////
 
-
 class Robot{
 public:
   Robot();
